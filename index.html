@@ -1,0 +1,1057 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+<meta charset="UTF-8"/>
+<meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+<title>Pembelajaran PAI Terpadu</title>
+<link href="https://fonts.googleapis.com/css2?family=Amiri:wght@400;700&family=Poppins:wght@300;400;500;600;700&display=swap" rel="stylesheet"/>
+<style>
+:root{
+  --hijau:#1a7a4a;--hijau-gelap:#0f4f2f;--hijau-muda:#2dbe72;
+  --emas:#c9a227;--emas-muda:#f0c84a;--krem:#fdf8ef;
+  --putih:#ffffff;--teks:#1e2a1e;--teks-ringan:#4a5a4a;
+  --abu:#e8f0e8;--sidebar-w:270px;
+  --shadow:0 8px 32px rgba(15,79,47,0.13);--radius:16px;
+}
+*{margin:0;padding:0;box-sizing:border-box;}
+body{font-family:'Poppins',sans-serif;background:var(--krem);color:var(--teks);display:flex;height:100vh;overflow:hidden;}
+
+/* ========== SIDEBAR ========== */
+#sidebar{
+  width:var(--sidebar-w);min-width:var(--sidebar-w);
+  background:linear-gradient(175deg,var(--hijau-gelap) 0%,#1a5c35 100%);
+  display:flex;flex-direction:column;
+  height:100vh;overflow-y:auto;overflow-x:hidden;
+  transition:width 0.3s;position:relative;z-index:50;
+  box-shadow:3px 0 20px rgba(0,0,0,0.18);
+}
+#sidebar::-webkit-scrollbar{width:4px;}
+#sidebar::-webkit-scrollbar-thumb{background:rgba(255,255,255,0.18);border-radius:4px;}
+.sidebar-top{
+  padding:24px 20px 18px;
+  border-bottom:1px solid rgba(255,255,255,0.1);
+  display:flex;align-items:center;gap:12px;
+}
+.sidebar-logo{
+  width:42px;height:42px;flex-shrink:0;
+  background:linear-gradient(135deg,var(--emas),var(--emas-muda));
+  border-radius:12px;display:flex;align-items:center;justify-content:center;
+  font-family:'Amiri',serif;font-size:22px;color:var(--hijau-gelap);font-weight:700;
+}
+.sidebar-title{color:var(--putih);font-size:13px;font-weight:700;line-height:1.3;}
+.sidebar-title small{display:block;color:rgba(255,255,255,0.5);font-size:11px;font-weight:400;margin-top:2px;}
+
+.sidebar-section{padding:16px 14px 4px;font-size:10.5px;font-weight:700;color:rgba(255,255,255,0.38);letter-spacing:1.5px;text-transform:uppercase;}
+
+.menu-item{
+  display:flex;align-items:center;gap:11px;
+  padding:10px 16px;margin:2px 10px;border-radius:10px;
+  cursor:pointer;transition:all 0.2s;
+  color:rgba(255,255,255,0.72);font-size:13.5px;font-weight:500;
+  border:none;background:transparent;width:calc(100% - 20px);text-align:left;
+}
+.menu-item:hover{background:rgba(255,255,255,0.1);color:var(--putih);}
+.menu-item.active{background:linear-gradient(135deg,rgba(201,162,39,0.28),rgba(201,162,39,0.14));color:var(--emas-muda);font-weight:600;}
+.menu-item.active .menu-dot{background:var(--emas-muda);}
+.menu-icon{font-size:17px;width:22px;flex-shrink:0;text-align:center;}
+.menu-dot{width:6px;height:6px;border-radius:50%;background:transparent;flex-shrink:0;margin-left:auto;}
+.menu-badge{margin-left:auto;background:rgba(45,190,114,0.25);color:var(--hijau-muda);font-size:10px;font-weight:700;padding:2px 7px;border-radius:50px;}
+
+/* sub-menu accordion */
+.menu-parent{flex-direction:column;padding:0;margin:2px 10px;border-radius:10px;overflow:hidden;width:calc(100% - 20px);}
+.menu-parent-btn{
+  display:flex;align-items:center;gap:11px;padding:10px 16px;
+  cursor:pointer;transition:all 0.2s;
+  color:rgba(255,255,255,0.72);font-size:13.5px;font-weight:500;
+  border:none;background:transparent;width:100%;text-align:left;
+}
+.menu-parent-btn:hover{background:rgba(255,255,255,0.1);color:var(--putih);}
+.menu-parent-btn.open{background:rgba(255,255,255,0.08);color:var(--putih);}
+.menu-chevron{margin-left:auto;font-size:11px;transition:transform 0.25s;}
+.menu-parent-btn.open .menu-chevron{transform:rotate(90deg);}
+.sub-menu{display:none;padding:4px 0 8px 32px;}
+.sub-menu.open{display:block;}
+.sub-menu-item{
+  display:flex;align-items:center;gap:9px;
+  padding:8px 14px 8px 8px;border-radius:8px;margin:1px 6px;
+  cursor:pointer;color:rgba(255,255,255,0.6);font-size:12.5px;
+  border:none;background:transparent;width:calc(100% - 12px);text-align:left;
+  transition:all 0.2s;
+}
+.sub-menu-item:hover{background:rgba(255,255,255,0.08);color:rgba(255,255,255,0.9);}
+.sub-menu-item.active{color:var(--emas-muda);font-weight:600;}
+.sub-dot{width:5px;height:5px;border-radius:50%;background:rgba(255,255,255,0.3);flex-shrink:0;}
+.sub-menu-item.active .sub-dot{background:var(--emas-muda);}
+
+.sidebar-footer{margin-top:auto;padding:16px 14px;border-top:1px solid rgba(255,255,255,0.08);}
+.sidebar-footer p{font-size:11px;color:rgba(255,255,255,0.35);text-align:center;line-height:1.5;}
+
+/* ========== TOPBAR ========== */
+#topbar{
+  position:fixed;top:0;left:var(--sidebar-w);right:0;height:60px;z-index:40;
+  background:rgba(253,248,239,0.95);backdrop-filter:blur(10px);
+  border-bottom:1px solid var(--abu);
+  display:flex;align-items:center;padding:0 28px;gap:16px;
+  box-shadow:0 2px 12px rgba(15,79,47,0.07);
+  transition:left 0.3s;
+}
+.topbar-burger{
+  display:none;background:none;border:none;cursor:pointer;
+  font-size:20px;color:var(--hijau);padding:4px;
+}
+.topbar-breadcrumb{display:flex;align-items:center;gap:8px;flex:1;}
+.breadcrumb-home{font-size:13px;color:var(--teks-ringan);cursor:pointer;}
+.breadcrumb-home:hover{color:var(--hijau);}
+.breadcrumb-sep{color:var(--abu);font-size:13px;}
+.breadcrumb-cur{font-size:13px;font-weight:600;color:var(--hijau);}
+.topbar-right{display:flex;align-items:center;gap:10px;}
+.topbar-badge{
+  background:linear-gradient(135deg,var(--hijau),var(--hijau-muda));
+  color:var(--putih);font-size:11.5px;font-weight:600;
+  padding:5px 14px;border-radius:50px;
+}
+
+/* ========== MAIN CONTENT ========== */
+#main{
+  flex:1;overflow-y:auto;padding-top:60px;
+  scroll-behavior:smooth;
+}
+#main::-webkit-scrollbar{width:6px;}
+#main::-webkit-scrollbar-thumb{background:var(--abu);border-radius:6px;}
+
+/* ========== PAGE ========== */
+.page{display:none;animation:pgIn 0.35s ease both;}
+.page.active{display:block;}
+@keyframes pgIn{from{opacity:0;transform:translateY(16px);}to{opacity:1;transform:translateY(0);}}
+
+/* ===== BERANDA ===== */
+.beranda-hero{
+  min-height:340px;
+  background:radial-gradient(ellipse 80% 60% at 60% 40%,rgba(45,190,114,0.12) 0%,transparent 70%),
+    linear-gradient(150deg,var(--hijau-gelap) 0%,#1a5c35 60%,#0d3320 100%);
+  display:flex;align-items:center;padding:60px 48px;
+  position:relative;overflow:hidden;
+}
+.beranda-pattern{position:absolute;inset:0;opacity:0.05;
+  background-image:repeating-linear-gradient(45deg,var(--emas) 0,var(--emas) 1px,transparent 0,transparent 50%);
+  background-size:28px 28px;}
+.beranda-ring{position:absolute;border-radius:50%;border:1.5px solid rgba(201,162,39,0.15);}
+.beranda-ring.r1{width:360px;height:360px;right:-60px;top:50%;transform:translateY(-50%);}
+.beranda-ring.r2{width:500px;height:500px;right:-120px;top:50%;transform:translateY(-50%);border-color:rgba(201,162,39,0.07);}
+.beranda-hero-content{position:relative;z-index:2;max-width:600px;}
+.beranda-arabic{font-family:'Amiri',serif;font-size:38px;color:var(--emas-muda);margin-bottom:12px;text-shadow:0 2px 16px rgba(201,162,39,0.25);}
+.beranda-hero h1{font-size:clamp(22px,3.5vw,34px);color:var(--putih);font-weight:700;line-height:1.25;margin-bottom:10px;}
+.beranda-hero h1 span{color:var(--emas-muda);}
+.beranda-hero p{color:rgba(255,255,255,0.7);font-size:14.5px;line-height:1.7;}
+
+.beranda-stats{display:grid;grid-template-columns:repeat(4,1fr);gap:16px;padding:28px 40px;background:var(--putih);border-bottom:1px solid var(--abu);}
+.bstat{display:flex;align-items:center;gap:14px;padding:16px 18px;background:var(--krem);border-radius:14px;border:1.5px solid var(--abu);}
+.bstat-ico{font-size:26px;}
+.bstat-val{font-size:22px;font-weight:700;color:var(--hijau);}
+.bstat-label{font-size:12px;color:var(--teks-ringan);}
+
+.beranda-cards-title{padding:32px 40px 16px;font-size:18px;font-weight:700;color:var(--hijau-gelap);}
+.beranda-cards-title span{color:var(--hijau);}
+.beranda-materi-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(280px,1fr));gap:18px;padding:0 40px 40px;}
+.bmateri-card{
+  background:var(--putih);border-radius:var(--radius);overflow:hidden;
+  box-shadow:var(--shadow);cursor:pointer;transition:all 0.28s;
+  border:1.5px solid transparent;
+}
+.bmateri-card:hover{transform:translateY(-5px);box-shadow:0 14px 40px rgba(15,79,47,0.15);border-color:var(--hijau-muda);}
+.bmateri-top{padding:20px;display:flex;align-items:center;gap:14px;}
+.bmateri-ico{width:50px;height:50px;border-radius:14px;display:flex;align-items:center;justify-content:center;font-size:24px;flex-shrink:0;}
+.bmateri-top h3{font-size:15px;font-weight:700;color:var(--putih);}
+.bmateri-top p{font-size:12px;color:rgba(255,255,255,0.75);margin-top:3px;line-height:1.4;}
+.bmateri-bot{padding:14px 18px;}
+.prog-row{display:flex;justify-content:space-between;font-size:11.5px;color:var(--teks-ringan);margin-bottom:5px;}
+.prog-bar{height:5px;background:var(--abu);border-radius:5px;overflow:hidden;}
+.prog-fill{height:100%;border-radius:5px;background:linear-gradient(90deg,var(--hijau),var(--hijau-muda));}
+.bmateri-btn{margin-top:12px;width:100%;padding:9px;background:transparent;border:1.5px solid var(--hijau);color:var(--hijau);border-radius:9px;font-size:13px;font-weight:600;cursor:pointer;transition:all 0.2s;}
+.bmateri-btn:hover{background:var(--hijau);color:var(--putih);}
+
+/* ===== HALAMAN MATERI ===== */
+.materi-page-header{
+  padding:40px 48px 32px;
+  position:relative;overflow:hidden;
+}
+.materi-page-header::before{content:'';position:absolute;inset:0;opacity:0.06;
+  background-image:repeating-linear-gradient(45deg,var(--emas) 0,var(--emas) 1px,transparent 0,transparent 50%);
+  background-size:24px 24px;}
+.mph-content{position:relative;z-index:1;display:flex;align-items:flex-start;gap:20px;}
+.mph-icon{width:64px;height:64px;border-radius:18px;background:rgba(255,255,255,0.2);
+  display:flex;align-items:center;justify-content:center;font-size:30px;flex-shrink:0;}
+.mph-info h1{font-size:24px;font-weight:700;color:var(--putih);margin-bottom:6px;}
+.mph-info p{font-size:14px;color:rgba(255,255,255,0.78);line-height:1.6;max-width:600px;}
+.mph-meta{display:flex;gap:16px;margin-top:12px;flex-wrap:wrap;}
+.mph-pill{background:rgba(255,255,255,0.18);color:rgba(255,255,255,0.9);
+  padding:4px 14px;border-radius:50px;font-size:12px;font-weight:500;}
+
+/* inner tabs */
+.inner-tabs{display:flex;gap:0;padding:0 40px;background:var(--putih);border-bottom:2px solid var(--abu);overflow-x:auto;}
+.inner-tab{
+  padding:13px 20px;font-size:13.5px;font-weight:500;color:var(--teks-ringan);
+  cursor:pointer;border:none;background:none;white-space:nowrap;
+  border-bottom:3px solid transparent;margin-bottom:-2px;transition:all 0.2s;
+}
+.inner-tab:hover{color:var(--hijau);}
+.inner-tab.active{color:var(--hijau);font-weight:700;border-bottom-color:var(--hijau);}
+
+.inner-content{padding:32px 40px 48px;}
+.itab-pane{display:none;animation:pgIn 0.3s ease;}
+.itab-pane.active{display:block;}
+
+/* sub-materi list */
+.sml{display:flex;flex-direction:column;gap:12px;}
+.sml-item{
+  display:flex;align-items:center;gap:16px;padding:16px 20px;
+  background:var(--putih);border-radius:12px;box-shadow:var(--shadow);
+  border:1.5px solid var(--abu);cursor:pointer;transition:all 0.2s;
+}
+.sml-item:hover{border-color:var(--hijau-muda);background:#f6fdf9;}
+.sml-num{width:34px;height:34px;border-radius:10px;background:rgba(26,122,74,0.1);
+  display:flex;align-items:center;justify-content:center;font-weight:700;font-size:13px;color:var(--hijau);flex-shrink:0;}
+.sml-ico{font-size:22px;flex-shrink:0;}
+.sml-info{flex:1;}
+.sml-info h4{font-size:14.5px;font-weight:600;color:var(--teks);}
+.sml-info p{font-size:13px;color:var(--teks-ringan);margin-top:3px;line-height:1.5;}
+.sml-status{font-size:11.5px;font-weight:600;padding:4px 12px;border-radius:50px;flex-shrink:0;}
+.s-done{background:rgba(26,122,74,0.1);color:var(--hijau);}
+.s-new{background:rgba(240,200,74,0.15);color:#8a6b00;}
+.s-lock{background:var(--abu);color:var(--teks-ringan);}
+
+/* penjelasan materi */
+.penjelasan-box{max-width:800px;}
+.pj-section{margin-bottom:28px;}
+.pj-section h3{font-size:16px;font-weight:700;color:var(--hijau-gelap);margin-bottom:10px;
+  display:flex;align-items:center;gap:8px;}
+.pj-section h3::before{content:'';display:inline-block;width:4px;height:18px;background:var(--hijau);border-radius:4px;}
+.pj-section p{font-size:14px;color:var(--teks-ringan);line-height:1.75;}
+.pj-list{list-style:none;display:flex;flex-direction:column;gap:8px;}
+.pj-list li{display:flex;gap:10px;font-size:14px;color:var(--teks-ringan);line-height:1.6;}
+.pj-list li::before{content:'→';color:var(--hijau);font-weight:700;flex-shrink:0;}
+.pj-grid{display:grid;grid-template-columns:1fr 1fr;gap:14px;margin-top:12px;}
+.pj-card{background:var(--krem);border-radius:12px;padding:16px;border-left:4px solid var(--hijau);}
+.pj-card h4{font-size:13px;font-weight:700;color:var(--hijau);margin-bottom:6px;}
+.pj-card p{font-size:13px;color:var(--teks-ringan);line-height:1.6;}
+
+/* dalil */
+.dalil-card{
+  background:linear-gradient(135deg,var(--hijau-gelap),#1d6b40);
+  border-radius:16px;padding:28px;margin-bottom:20px;
+}
+.dc-arab{font-family:'Amiri',serif;font-size:28px;color:var(--emas-muda);text-align:right;line-height:1.9;margin-bottom:12px;}
+.dc-latin{font-size:13.5px;font-style:italic;color:rgba(255,255,255,0.78);margin-bottom:8px;line-height:1.6;}
+.dc-terjemah{font-size:14px;color:rgba(255,255,255,0.92);line-height:1.7;}
+.dc-src{font-size:12px;color:var(--emas-muda);font-weight:700;margin-top:12px;}
+.dalil-penjelasan{background:var(--putih);border-radius:12px;padding:18px 20px;border:1.5px solid var(--abu);}
+.dalil-penjelasan h4{font-size:14px;font-weight:700;color:var(--hijau-gelap);margin-bottom:8px;}
+.dalil-penjelasan p{font-size:13.5px;color:var(--teks-ringan);line-height:1.75;}
+
+/* quiz */
+.quiz-header{display:flex;justify-content:space-between;align-items:center;margin-bottom:20px;}
+.quiz-header h3{font-size:16px;font-weight:700;color:var(--hijau-gelap);}
+.quiz-score{background:var(--hijau);color:var(--putih);padding:5px 16px;border-radius:50px;font-size:13px;font-weight:700;}
+.qcard{background:var(--putih);border-radius:14px;padding:22px;margin-bottom:16px;box-shadow:var(--shadow);border:1.5px solid var(--abu);}
+.qcard p{font-size:14.5px;font-weight:600;color:var(--teks);margin-bottom:14px;line-height:1.5;}
+.q-opts{display:flex;flex-direction:column;gap:8px;}
+.q-opt{
+  padding:11px 16px;border-radius:10px;border:1.5px solid var(--abu);
+  background:var(--krem);font-size:13.5px;cursor:pointer;text-align:left;
+  color:var(--teks);transition:all 0.2s;
+}
+.q-opt:hover{border-color:var(--hijau);background:rgba(26,122,74,0.05);}
+.q-opt.correct{background:rgba(26,122,74,0.1);border-color:var(--hijau);color:var(--hijau);font-weight:600;}
+.q-opt.wrong{background:rgba(220,38,38,0.07);border-color:#dc2626;color:#dc2626;}
+.quiz-reset{margin-top:4px;padding:11px 24px;background:var(--hijau);color:var(--putih);border:none;border-radius:10px;font-size:14px;font-weight:600;cursor:pointer;transition:all 0.2s;}
+.quiz-reset:hover{background:var(--hijau-gelap);}
+
+/* ===== DO'A PAGE ===== */
+.doa-page-header{padding:40px 48px 24px;background:linear-gradient(150deg,var(--hijau-gelap),#1d6b40);}
+.doa-page-header h1{font-size:26px;font-weight:700;color:var(--putih);}
+.doa-page-header p{font-size:14px;color:rgba(255,255,255,0.7);margin-top:6px;}
+.doa-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(300px,1fr));gap:20px;padding:32px 40px 48px;}
+.doa-card{
+  background:var(--putih);border-radius:var(--radius);padding:24px;
+  box-shadow:var(--shadow);border:1.5px solid var(--abu);transition:all 0.25s;
+}
+.doa-card:hover{transform:translateY(-4px);border-color:var(--hijau-muda);}
+.doa-judul{font-size:13.5px;font-weight:700;color:var(--hijau);margin-bottom:14px;display:flex;align-items:center;gap:8px;}
+.doa-arab{font-family:'Amiri',serif;font-size:22px;color:var(--hijau-gelap);text-align:right;line-height:1.9;margin-bottom:10px;padding-bottom:10px;border-bottom:1px solid var(--abu);}
+.doa-latin{font-size:12.5px;font-style:italic;color:var(--teks-ringan);margin-bottom:7px;line-height:1.6;}
+.doa-arti{font-size:13px;color:var(--teks);line-height:1.65;background:var(--krem);border-radius:8px;padding:10px 12px;}
+
+/* ===== JADWAL PAGE ===== */
+.jadwal-header-page{padding:40px 48px 24px;background:linear-gradient(150deg,#1a4a80,#2980b9);}
+.jadwal-header-page h1{font-size:26px;font-weight:700;color:var(--putih);}
+.jadwal-header-page p{font-size:14px;color:rgba(255,255,255,0.7);margin-top:6px;}
+.jadwal-content{padding:32px 40px;}
+.jadwal-wrap{background:var(--putih);border-radius:16px;overflow:hidden;box-shadow:var(--shadow);}
+.jadwal-head{display:grid;grid-template-columns:repeat(7,1fr);background:var(--hijau-gelap);}
+.jadwal-head div{padding:14px 8px;text-align:center;font-size:13px;font-weight:600;color:rgba(255,255,255,0.85);}
+.jadwal-row{display:grid;grid-template-columns:repeat(7,1fr);border-bottom:1px solid var(--abu);}
+.jadwal-row:last-child{border-bottom:none;}
+.jcell{padding:12px 6px;text-align:center;display:flex;align-items:center;justify-content:center;min-height:64px;}
+.jpill{border-radius:8px;padding:5px 9px;font-size:11.5px;font-weight:600;line-height:1.4;text-align:center;}
+.jpill.hijau{background:rgba(26,122,74,0.1);color:var(--hijau);}
+.jpill.emas{background:rgba(201,162,39,0.12);color:#8a6b00;}
+.jpill.biru{background:rgba(33,150,211,0.1);color:#1a5c8a;}
+.jpill.merah{background:rgba(220,38,38,0.08);color:#b91c1c;}
+
+/* ===== FITUR PAGE ===== */
+.fitur-header{padding:40px 48px 24px;background:linear-gradient(150deg,#2d2d7a,#5555c0);}
+.fitur-header h1{font-size:26px;font-weight:700;color:var(--putih);}
+.fitur-header p{font-size:14px;color:rgba(255,255,255,0.7);margin-top:6px;}
+.fitur-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(250px,1fr));gap:18px;padding:32px 40px;}
+.fitur-card{background:var(--putih);border-radius:var(--radius);padding:26px 22px;box-shadow:var(--shadow);border:1.5px solid var(--abu);transition:all 0.25s;}
+.fitur-card:hover{transform:translateY(-5px);border-color:rgba(85,85,192,0.4);}
+.fitur-ico{width:58px;height:58px;border-radius:16px;background:linear-gradient(135deg,rgba(85,85,192,0.12),rgba(85,85,192,0.06));display:flex;align-items:center;justify-content:center;font-size:26px;margin-bottom:16px;}
+.fitur-card h3{font-size:15px;font-weight:700;margin-bottom:8px;color:var(--teks);}
+.fitur-card p{font-size:13.5px;color:var(--teks-ringan);line-height:1.65;}
+
+/* ===== RESPONSIVE ===== */
+@media(max-width:768px){
+  #sidebar{position:fixed;left:-var(--sidebar-w);width:var(--sidebar-w);transform:translateX(-100%);transition:transform 0.3s;z-index:200;}
+  #sidebar.open{transform:translateX(0);}
+  #topbar{left:0;}
+  .topbar-burger{display:flex;}
+  .beranda-stats{grid-template-columns:1fr 1fr;}
+  .beranda-hero{padding:40px 24px;}
+  .beranda-materi-grid,.inner-content,.doa-grid,.jadwal-content,.fitur-grid{padding-left:20px;padding-right:20px;}
+  .beranda-cards-title{padding-left:20px;}
+  .materi-page-header{padding:28px 24px;}
+  .pj-grid{grid-template-columns:1fr;}
+  .inner-tabs{padding:0 20px;}
+  .doa-page-header,.jadwal-header-page,.fitur-header{padding:28px 24px 20px;}
+  .jadwal-head,.jadwal-row{grid-template-columns:repeat(4,1fr);}
+  .jadwal-head div:nth-child(n+5),.jcell:nth-child(n+5){display:none;}
+  .sidebar-overlay{display:block;}
+}
+.sidebar-overlay{display:none;position:fixed;inset:0;background:rgba(0,0,0,0.4);z-index:190;}
+.sidebar-overlay.open{display:block;}
+</style>
+</head>
+<body>
+
+<!-- SIDEBAR OVERLAY (mobile) -->
+<div class="sidebar-overlay" id="sidebarOverlay" onclick="closeSidebar()"></div>
+
+<!-- SIDEBAR -->
+<aside id="sidebar">
+  <div class="sidebar-top">
+    <div class="sidebar-logo">ﷺ</div>
+    <div class="sidebar-title">PAI Terpadu<small>Platform Islami Digital</small></div>
+  </div>
+
+  <div class="sidebar-section">Navigasi</div>
+  <button class="menu-item active" onclick="goPage('beranda',this)" data-page="beranda">
+    <span class="menu-icon">🏠</span> Beranda <span class="menu-dot"></span>
+  </button>
+
+  <div class="sidebar-section">Materi Utama</div>
+
+  <!-- Accordion materi -->
+  <div class="menu-parent" id="par-1">
+    <button class="menu-parent-btn" onclick="toggleParent('par-1')">
+      <span class="menu-icon">📖</span> Al-Qur'an & Tajwid
+      <span class="menu-chevron">›</span>
+    </button>
+    <div class="sub-menu" id="sub-par-1">
+      <button class="sub-menu-item" onclick="goMateri(1,'submateri')"><span class="sub-dot"></span>Sub Materi</button>
+      <button class="sub-menu-item" onclick="goMateri(1,'penjelasan')"><span class="sub-dot"></span>Penjelasan</button>
+      <button class="sub-menu-item" onclick="goMateri(1,'dalil')"><span class="sub-dot"></span>Dalil</button>
+      <button class="sub-menu-item" onclick="goMateri(1,'kuis')"><span class="sub-dot"></span>Kuis</button>
+    </div>
+  </div>
+
+  <div class="menu-parent" id="par-2">
+    <button class="menu-parent-btn" onclick="toggleParent('par-2')">
+      <span class="menu-icon">🌟</span> Aqidah Islam
+      <span class="menu-chevron">›</span>
+    </button>
+    <div class="sub-menu" id="sub-par-2">
+      <button class="sub-menu-item" onclick="goMateri(2,'submateri')"><span class="sub-dot"></span>Sub Materi</button>
+      <button class="sub-menu-item" onclick="goMateri(2,'penjelasan')"><span class="sub-dot"></span>Penjelasan</button>
+      <button class="sub-menu-item" onclick="goMateri(2,'dalil')"><span class="sub-dot"></span>Dalil</button>
+      <button class="sub-menu-item" onclick="goMateri(2,'kuis')"><span class="sub-dot"></span>Kuis</button>
+    </div>
+  </div>
+
+  <div class="menu-parent" id="par-3">
+    <button class="menu-parent-btn" onclick="toggleParent('par-3')">
+      <span class="menu-icon">🕌</span> Fiqih Ibadah
+      <span class="menu-chevron">›</span>
+    </button>
+    <div class="sub-menu" id="sub-par-3">
+      <button class="sub-menu-item" onclick="goMateri(3,'submateri')"><span class="sub-dot"></span>Sub Materi</button>
+      <button class="sub-menu-item" onclick="goMateri(3,'penjelasan')"><span class="sub-dot"></span>Penjelasan</button>
+      <button class="sub-menu-item" onclick="goMateri(3,'dalil')"><span class="sub-dot"></span>Dalil</button>
+      <button class="sub-menu-item" onclick="goMateri(3,'kuis')"><span class="sub-dot"></span>Kuis</button>
+    </div>
+  </div>
+
+  <div class="menu-parent" id="par-4">
+    <button class="menu-parent-btn" onclick="toggleParent('par-4')">
+      <span class="menu-icon">🌹</span> Akhlak Mulia
+      <span class="menu-chevron">›</span>
+    </button>
+    <div class="sub-menu" id="sub-par-4">
+      <button class="sub-menu-item" onclick="goMateri(4,'submateri')"><span class="sub-dot"></span>Sub Materi</button>
+      <button class="sub-menu-item" onclick="goMateri(4,'penjelasan')"><span class="sub-dot"></span>Penjelasan</button>
+      <button class="sub-menu-item" onclick="goMateri(4,'dalil')"><span class="sub-dot"></span>Dalil</button>
+      <button class="sub-menu-item" onclick="goMateri(4,'kuis')"><span class="sub-dot"></span>Kuis</button>
+    </div>
+  </div>
+
+  <div class="menu-parent" id="par-5">
+    <button class="menu-parent-btn" onclick="toggleParent('par-5')">
+      <span class="menu-icon">📜</span> Hadist & Sunnah
+      <span class="menu-chevron">›</span>
+    </button>
+    <div class="sub-menu" id="sub-par-5">
+      <button class="sub-menu-item" onclick="goMateri(5,'submateri')"><span class="sub-dot"></span>Sub Materi</button>
+      <button class="sub-menu-item" onclick="goMateri(5,'penjelasan')"><span class="sub-dot"></span>Penjelasan</button>
+      <button class="sub-menu-item" onclick="goMateri(5,'dalil')"><span class="sub-dot"></span>Dalil</button>
+      <button class="sub-menu-item" onclick="goMateri(5,'kuis')"><span class="sub-dot"></span>Kuis</button>
+    </div>
+  </div>
+
+  <div class="menu-parent" id="par-6">
+    <button class="menu-parent-btn" onclick="toggleParent('par-6')">
+      <span class="menu-icon">🏛️</span> Sejarah Islam (SKI)
+      <span class="menu-chevron">›</span>
+    </button>
+    <div class="sub-menu" id="sub-par-6">
+      <button class="sub-menu-item" onclick="goMateri(6,'submateri')"><span class="sub-dot"></span>Sub Materi</button>
+      <button class="sub-menu-item" onclick="goMateri(6,'penjelasan')"><span class="sub-dot"></span>Penjelasan</button>
+      <button class="sub-menu-item" onclick="goMateri(6,'dalil')"><span class="sub-dot"></span>Dalil</button>
+      <button class="sub-menu-item" onclick="goMateri(6,'kuis')"><span class="sub-dot"></span>Kuis</button>
+    </div>
+  </div>
+
+  <div class="sidebar-section">Lainnya</div>
+  <button class="menu-item" onclick="goPage('doa',this)" data-page="doa">
+    <span class="menu-icon">🤲</span> Do'a Harian <span class="menu-badge">30+</span>
+  </button>
+  <button class="menu-item" onclick="goPage('jadwal',this)" data-page="jadwal">
+    <span class="menu-icon">📅</span> Jadwal Belajar <span class="menu-dot"></span>
+  </button>
+  <button class="menu-item" onclick="goPage('fitur',this)" data-page="fitur">
+    <span class="menu-icon">⭐</span> Fitur Unggulan <span class="menu-dot"></span>
+  </button>
+
+  <div class="sidebar-footer"><p>© 2024 PAI Terpadu<br/>Semoga bermanfaat 🌙</p></div>
+</aside>
+
+<!-- TOPBAR -->
+<div id="topbar">
+  <button class="topbar-burger" onclick="toggleSidebar()">☰</button>
+  <div class="topbar-breadcrumb">
+    <span class="breadcrumb-home" onclick="goPage('beranda')">🏠 Beranda</span>
+    <span class="breadcrumb-sep" id="breadSep" style="display:none">›</span>
+    <span class="breadcrumb-cur" id="breadCur"></span>
+  </div>
+  <div class="topbar-right">
+    <span class="topbar-badge">بِسْمِ اللّٰهِ</span>
+  </div>
+</div>
+
+<!-- MAIN -->
+<div id="main">
+
+  <!-- ===== BERANDA ===== -->
+  <div class="page active" id="page-beranda">
+    <div class="beranda-hero">
+      <div class="beranda-pattern"></div>
+      <div class="beranda-ring r1"></div><div class="beranda-ring r2"></div>
+      <div class="beranda-hero-content">
+        <div class="beranda-arabic">بِسْمِ اللّٰهِ الرَّحْمٰنِ الرَّحِيْمِ</div>
+        <h1>Pembelajaran <span>Pendidikan Agama Islam</span> Terpadu</h1>
+        <p>Platform belajar agama Islam yang komprehensif, interaktif, dan menyenangkan. Pilih menu di sebelah kiri untuk mulai belajar.</p>
+      </div>
+    </div>
+    <div class="beranda-stats">
+      <div class="bstat"><span class="bstat-ico">📚</span><div><div class="bstat-val">6</div><div class="bstat-label">Bidang Materi</div></div></div>
+      <div class="bstat"><span class="bstat-ico">📝</span><div><div class="bstat-val">32</div><div class="bstat-label">Sub Topik</div></div></div>
+      <div class="bstat"><span class="bstat-ico">🧪</span><div><div class="bstat-val">48</div><div class="bstat-label">Soal Kuis</div></div></div>
+      <div class="bstat"><span class="bstat-ico">🤲</span><div><div class="bstat-val">30+</div><div class="bstat-label">Do'a Harian</div></div></div>
+    </div>
+    <div class="beranda-cards-title">Pilih <span>Materi Pembelajaran</span></div>
+    <div class="beranda-materi-grid" id="berandaGrid"></div>
+  </div>
+
+  <!-- ===== MATERI PAGES (generated) ===== -->
+  <div id="materiPages"></div>
+
+  <!-- ===== DO'A ===== -->
+  <div class="page" id="page-doa">
+    <div class="doa-page-header">
+      <h1>🤲 Do'a Harian</h1>
+      <p>Kumpulan do'a sehari-hari lengkap dengan tulisan Arab, latin, dan terjemahan</p>
+    </div>
+    <div class="doa-grid" id="doaGrid"></div>
+  </div>
+
+  <!-- ===== JADWAL ===== -->
+  <div class="page" id="page-jadwal">
+    <div class="jadwal-header-page">
+      <h1>📅 Jadwal Belajar Mingguan</h1>
+      <p>Rencanakan jadwal belajar agar lebih terstruktur dan konsisten setiap minggunya</p>
+    </div>
+    <div class="jadwal-content">
+      <div class="jadwal-wrap">
+        <div class="jadwal-head">
+          <div>Senin</div><div>Selasa</div><div>Rabu</div><div>Kamis</div><div>Jumat</div><div>Sabtu</div><div>Minggu</div>
+        </div>
+        <div class="jadwal-row">
+          <div class="jcell"><div class="jpill hijau">Al-Qur'an<br/>07.00</div></div>
+          <div class="jcell"><div class="jpill emas">Aqidah<br/>07.00</div></div>
+          <div class="jcell"><div class="jpill hijau">Hadist<br/>07.00</div></div>
+          <div class="jcell"><div class="jpill emas">Fiqih<br/>07.00</div></div>
+          <div class="jcell"><div class="jpill merah">Shalat<br/>Jum'at</div></div>
+          <div class="jcell"><div class="jpill biru">Akhlak<br/>08.00</div></div>
+          <div class="jcell"><div class="jpill emas">Sejarah<br/>09.00</div></div>
+        </div>
+        <div class="jadwal-row">
+          <div class="jcell"><div class="jpill hijau">Tajwid<br/>15.00</div></div>
+          <div class="jcell"><div class="jpill emas">Kuis<br/>Aqidah</div></div>
+          <div class="jcell"><div class="jpill biru">Do'a<br/>Hafalan</div></div>
+          <div class="jcell"><div class="jpill emas">Latihan<br/>Fiqih</div></div>
+          <div class="jcell"><div class="jpill biru">Akhlak<br/>15.30</div></div>
+          <div class="jcell"><div class="jpill hijau">Tadarus<br/>Qur'an</div></div>
+          <div class="jcell"><div class="jpill merah">Evaluasi<br/>Minggu</div></div>
+        </div>
+        <div class="jadwal-row">
+          <div class="jcell"><div class="jpill biru">Hafalan<br/>Surat</div></div>
+          <div class="jcell"><div class="jpill hijau">Makhraj<br/>Huruf</div></div>
+          <div class="jcell"><div class="jpill emas">SKI<br/>16.00</div></div>
+          <div class="jcell"><div class="jpill hijau">Shalat<br/>Sunnah</div></div>
+          <div class="jcell"><div class="jpill emas">Zikir<br/>Petang</div></div>
+          <div class="jcell"><div class="jpill merah">Kuis<br/>Mingguan</div></div>
+          <div class="jcell"><div class="jpill biru">Muroja'ah<br/>Hafalan</div></div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- ===== FITUR ===== -->
+  <div class="page" id="page-fitur">
+    <div class="fitur-header">
+      <h1>⭐ Fitur Unggulan</h1>
+      <p>Berbagai fitur pembelajaran yang dirancang untuk memudahkan belajar agama Islam</p>
+    </div>
+    <div class="fitur-grid">
+      <div class="fitur-card"><div class="fitur-ico">📖</div><h3>Materi Lengkap</h3><p>6 bidang materi PAI tersusun sistematis: Al-Qur'an, Aqidah, Fiqih, Akhlak, Hadist, dan SKI.</p></div>
+      <div class="fitur-card"><div class="fitur-ico">🧪</div><h3>Kuis Interaktif</h3><p>Uji pemahaman melalui kuis pilihan ganda dengan umpan balik dan koreksi langsung.</p></div>
+      <div class="fitur-card"><div class="fitur-ico">🤲</div><h3>Do'a Harian</h3><p>Koleksi do'a sehari-hari lengkap dengan tulisan Arab, latin, dan terjemahan Indonesia.</p></div>
+      <div class="fitur-card"><div class="fitur-ico">📖</div><h3>Dalil Al-Qur'an</h3><p>Setiap materi dilengkapi dalil dari Al-Qur'an dan Hadist beserta terjemahan lengkap.</p></div>
+      <div class="fitur-card"><div class="fitur-ico">📅</div><h3>Jadwal Belajar</h3><p>Jadwal belajar mingguan yang terstruktur agar pembelajaran lebih konsisten dan terarah.</p></div>
+      <div class="fitur-card"><div class="fitur-ico">🗂️</div><h3>Menu Terstruktur</h3><p>Navigasi sidebar dengan accordion menu memudahkan akses ke setiap bagian materi.</p></div>
+      <div class="fitur-card"><div class="fitur-ico">📝</div><h3>Ringkasan Materi</h3><p>Setiap materi dirangkum dalam poin-poin penting yang mudah dipahami dan diingat.</p></div>
+      <div class="fitur-card"><div class="fitur-ico">🌙</div><h3>Desain Islami</h3><p>Tampilan bernuansa hijau dan emas yang mencerminkan keindahan estetika Islam.</p></div>
+    </div>
+  </div>
+
+</div><!-- end #main -->
+
+<script>
+// ============================================================
+//  DATA
+// ============================================================
+const materiData = [
+  {
+    id:1, judul:"Al-Qur'an & Tajwid", icon:"📖",
+    gradient:"linear-gradient(135deg,#1a5c35,#2dbe72)",
+    deskripsi:"Membaca, memahami, dan menghafal Al-Qur'an dengan tajwid yang benar",
+    topik:6, waktu:"3 Jam/Minggu", progress:65,
+    submateri:[
+      {icon:"🔤",nama:"Hukum Bacaan Nun Mati",desc:"Idgham, Ikhfa, Iqlab, Izhar Halqi dan penerapannya",status:"done"},
+      {icon:"🔤",nama:"Hukum Bacaan Mim Mati",desc:"Idgham Mimi, Ikhfa Syafawi, Izhar Syafawi",status:"done"},
+      {icon:"🔊",nama:"Hukum Mad",desc:"Mad Thobi'i, Mad Wajib Muttashil, Mad Jaiz Munfashil",status:"new"},
+      {icon:"✏️",nama:"Tanda Waqaf",desc:"Tanda berhenti (waqaf) dan tanda lanjut (washal) bacaan",status:"new"},
+      {icon:"🎵",nama:"Makharijul Huruf",desc:"Tempat keluarnya 29 huruf hijaiyyah dengan benar",status:"lock"},
+      {icon:"📜",nama:"Hafalan Juz 30",desc:"Metode menghafal surat-surat pendek pilihan Juz Amma",status:"lock"},
+    ],
+    penjelasan:[
+      {judul:"Pengertian Ilmu Tajwid",isi:"Tajwid secara bahasa artinya memperindah atau memperbagus. Secara istilah, tajwid adalah ilmu yang mempelajari cara membaca Al-Qur'an dengan memberikan hak dan mustahak huruf sesuai sifat-sifatnya."},
+      {judul:"Hukum Mempelajari Tajwid",isi:"Hukum mempelajari ilmu tajwid adalah Fardhu Kifayah, artinya wajib bagi sebagian orang dalam satu komunitas untuk mempelajarinya. Namun mengamalkan/membaca Al-Qur'an dengan tajwid hukumnya Fardhu 'Ain bagi setiap muslim."},
+      {judul:"Pembagian Hukum Nun Mati",isi:"",list:["Izhar Halqi: nun mati/tanwin bertemu huruf حخعغأه — dibaca jelas","Idgham Bighunnah: bertemu يونم — dilebur dengan dengung","Idgham Bilaghunnah: bertemu لر — dilebur tanpa dengung","Iqlab: bertemu ب — diganti bunyi mim dengan dengung","Ikhfa Haqiqi: bertemu 15 huruf selainnya — samar-samar"]},
+      {judul:"Manfaat Belajar Tajwid",isi:"Menjaga kemurnian bacaan Al-Qur'an dari kesalahan yang dapat mengubah makna, mendapat pahala berlipat ganda dari setiap huruf yang dibaca, dan meneladani cara baca Rasulullah ﷺ."},
+    ],
+    pjGrid:[
+      {judul:"Mad Thobi'i",isi:"Panjang 1 alif / 2 harakat. Terjadi ketika ada huruf mad (ا و ي) tanpa syarat apapun."},
+      {judul:"Mad Wajib",isi:"Panjang 5 harakat. Mad thobi'i bertemu hamzah dalam satu kata."},
+      {judul:"Waqaf Lazim (م)",isi:"Wajib berhenti. Jika tidak berhenti, artinya berubah atau menyesatkan."},
+      {judul:"Waqaf Jaiz (ج)",isi:"Boleh berhenti boleh lanjut, tidak mengubah makna dalam kedua kondisi."},
+    ],
+    dalil:{arab:"إِنَّا نَحْنُ نَزَّلْنَا الذِّكْرَ وَإِنَّا لَهُ لَحَافِظُونَ",latin:"Innaa nahnu nazzalnadz-dzikra wa innaa lahuu lahaafizhuun",terjemah:"Sesungguhnya Kamilah yang menurunkan Al-Qur'an, dan pasti Kami (pula) yang memeliharanya.",sumber:"QS. Al-Hijr: 9",penjelasan:"Ayat ini menjadi dasar keyakinan bahwa Al-Qur'an terjaga kemurniannya hingga hari kiamat. Mempelajari tajwid adalah bagian dari upaya kita menjaga kemurnian bacaan Al-Qur'an tersebut."},
+    kuis:[
+      {soal:"Nun mati bertemu huruf ba' termasuk hukum bacaan...?",opsi:["Izhar Halqi","Iqlab","Idgham Bighunnah","Ikhfa Haqiqi"],jawaban:1},
+      {soal:"Mad Thobi'i memiliki panjang bacaan...?",opsi:["1 harakat","2 harakat","3 harakat","5 harakat"],jawaban:1},
+      {soal:"Idgham Bilaghunnah terjadi ketika nun mati bertemu huruf...?",opsi:["ي dan و","ل dan ر","ب saja","م dan ن"],jawaban:1},
+      {soal:"Makharijul huruf artinya...?",opsi:["Sifat-sifat huruf","Nama-nama huruf","Tempat keluarnya huruf","Panjang pendek huruf"],jawaban:2},
+    ]
+  },
+  {
+    id:2, judul:"Aqidah Islam", icon:"🌟",
+    gradient:"linear-gradient(135deg,#0f4f80,#2196d3)",
+    deskripsi:"Dasar keimanan dan keyakinan dalam Islam sesuai Al-Qur'an dan Sunnah",
+    topik:5, waktu:"2 Jam/Minggu", progress:40,
+    submateri:[
+      {icon:"🕌",nama:"Rukun Iman",desc:"6 Rukun Iman yang wajib diyakini setiap muslim",status:"done"},
+      {icon:"📿",nama:"Asmaul Husna",desc:"99 Nama-nama Allah yang Maha Indah beserta maknanya",status:"done"},
+      {icon:"👼",nama:"Iman kepada Malaikat",desc:"10 Malaikat beserta nama dan tugasnya masing-masing",status:"new"},
+      {icon:"📚",nama:"Iman kepada Kitab",desc:"4 Kitab suci yang diturunkan Allah kepada para Nabi",status:"new"},
+      {icon:"🌟",nama:"Iman kepada Rasul",desc:"25 Nabi dan Rasul yang wajib diketahui umat Islam",status:"lock"},
+    ],
+    penjelasan:[
+      {judul:"Definisi Aqidah",isi:"Aqidah secara bahasa berasal dari kata 'aqada-ya'qidu' yang berarti ikatan atau simpul. Secara istilah, aqidah adalah keyakinan yang tertanam kuat dalam hati seorang muslim tanpa ada keraguan sedikitpun."},
+      {judul:"Sumber Aqidah Islam",isi:"Aqidah Islam bersumber dari Al-Qur'an, Hadist shahih, dan Ijma' para ulama salafus shalih. Tidak boleh membangun aqidah berdasarkan akal semata tanpa dasar dalil yang kuat."},
+      {judul:"6 Rukun Iman",isi:"",list:["Iman kepada Allah SWT — meyakini keesaan dan sifat-Nya","Iman kepada Malaikat — makhluk dari cahaya yang patuh kepada Allah","Iman kepada Kitab-kitab Allah — Taurat, Zabur, Injil, dan Al-Qur'an","Iman kepada Nabi dan Rasul — 25 Nabi yang wajib diketahui","Iman kepada Hari Kiamat — hari pembalasan seluruh amal","Iman kepada Qada dan Qadar — ketentuan baik dan buruk dari Allah"]},
+      {judul:"Pentingnya Aqidah yang Benar",isi:"Aqidah yang benar adalah pondasi utama seluruh amal ibadah. Tanpa aqidah yang kokoh, ibadah apapun tidak akan diterima. Aqidah yang rusak dapat membatalkan seluruh amalan seorang muslim."},
+    ],
+    pjGrid:[
+      {judul:"Tauhid Rububiyyah",isi:"Meyakini bahwa Allah adalah satu-satunya Rabb (Pencipta, Pemelihara, dan Pengatur) seluruh alam."},
+      {judul:"Tauhid Uluhiyyah",isi:"Meyakini bahwa hanya Allah yang berhak diibadahi, tidak ada sekutu bagi-Nya."},
+      {judul:"Tauhid Asma' wa Shifat",isi:"Menetapkan semua nama dan sifat Allah sesuai yang Dia tetapkan sendiri tanpa tahrif, ta'thil, takyif, maupun tamtsil."},
+      {judul:"Bahaya Syirik",isi:"Syirik adalah dosa yang paling besar dan tidak diampuni jika meninggal dalam keadaan musyrik (QS. An-Nisa: 48)."},
+    ],
+    dalil:{arab:"آمَنَ الرَّسُولُ بِمَا أُنزِلَ إِلَيْهِ مِن رَّبِّهِ وَالْمُؤْمِنُونَ",latin:"Aamanar-rasuulu bimaa unzila ilaihi mir-rabbihii wal-mu'minuun",terjemah:"Rasul (Muhammad) beriman kepada apa yang diturunkan kepadanya dari Tuhannya, demikian pula orang-orang yang beriman.",sumber:"QS. Al-Baqarah: 285",penjelasan:"Ayat ini menunjukkan bahwa keimanan Rasulullah dan seluruh orang beriman mencakup iman kepada Allah, Malaikat, Kitab, dan Rasul-Nya. Inilah fondasi aqidah Islamiyah yang harus dipegang teguh."},
+    kuis:[
+      {soal:"Berapa jumlah Rukun Iman dalam Islam?",opsi:["4","5","6","7"],jawaban:2},
+      {soal:"Malaikat yang bertugas mencabut nyawa adalah...?",opsi:["Jibril","Mikail","Izrail","Israfil"],jawaban:2},
+      {soal:"Kitab Zabur diturunkan kepada Nabi...?",opsi:["Musa AS","Dawud AS","Isa AS","Ibrahim AS"],jawaban:1},
+      {soal:"Iman kepada Qada dan Qadar adalah rukun iman ke...?",opsi:["4","5","6","7"],jawaban:2},
+    ]
+  },
+  {
+    id:3, judul:"Fiqih Ibadah", icon:"🕌",
+    gradient:"linear-gradient(135deg,#7b2d8b,#c054d4)",
+    deskripsi:"Hukum dan tata cara ibadah dalam Islam yang wajib dan sunnah",
+    topik:7, waktu:"3 Jam/Minggu", progress:55,
+    submateri:[
+      {icon:"💧",nama:"Thaharah",desc:"Bersuci dari hadast besar, hadast kecil, dan najis",status:"done"},
+      {icon:"🙏",nama:"Shalat Fardhu",desc:"Tata cara, bacaan, dan waktu 5 waktu shalat wajib",status:"done"},
+      {icon:"🌙",nama:"Shalat Sunnah",desc:"Dhuha, Tahajud, Rawatib, Witir, dan shalat sunnah lain",status:"new"},
+      {icon:"💰",nama:"Zakat",desc:"Zakat mal, zakat fitrah, nishab, dan cara menghitung",status:"new"},
+      {icon:"🌺",nama:"Puasa Ramadhan",desc:"Rukun, syarat sah, hal yang membatalkan, dan hikmah puasa",status:"new"},
+      {icon:"🕋",nama:"Haji & Umrah",desc:"Rukun, wajib, dan sunnah dalam ibadah haji dan umrah",status:"lock"},
+      {icon:"💍",nama:"Muamalah",desc:"Hukum jual beli, pernikahan, dan waris dalam Islam",status:"lock"},
+    ],
+    penjelasan:[
+      {judul:"Rukun Islam",isi:"Islam dibangun di atas 5 pilar utama sebagaimana sabda Nabi ﷺ: Syahadat, mendirikan shalat, menunaikan zakat, berpuasa di bulan Ramadhan, dan menunaikan haji bagi yang mampu."},
+      {judul:"Syarat Sah Shalat",isi:"",list:["Suci dari hadast kecil maupun besar (berwudhu/mandi wajib)","Menutup aurat — laki-laki: antara pusar dan lutut; perempuan: seluruh tubuh kecuali muka dan telapak tangan","Menghadap kiblat (Ka'bah di Makkah)","Masuk waktu shalat yang telah ditentukan","Mengetahui bahwa shalat itu fardhu"]},
+      {judul:"Urutan Wudhu yang Benar",isi:"Niat → membasuh kedua telapak tangan → berkumur dan membersihkan hidung → membasuh seluruh muka → membasuh kedua tangan hingga siku → mengusap sebagian kepala → membasuh telinga → membasuh kedua kaki hingga mata kaki → tartib (berurutan)."},
+      {judul:"Ketentuan Zakat",isi:"Zakat fitrah wajib dikeluarkan sebelum shalat Idul Fitri sebesar 2,5 kg atau 3,5 liter bahan makanan pokok. Zakat mal dikeluarkan jika harta telah mencapai nishab (85 gram emas) dan haul (satu tahun)."},
+    ],
+    pjGrid:[
+      {judul:"Shalat Fardhu 5 Waktu",isi:"Subuh (2 rakaat), Dzuhur (4), Ashar (4), Maghrib (3), Isya (4). Total 17 rakaat per hari."},
+      {judul:"Shalat Dhuha",isi:"Minimal 2 rakaat, maksimal 12 rakaat. Dikerjakan mulai matahari setinggi tombak hingga menjelang Dzuhur."},
+      {judul:"Zakat Emas",isi:"Nishab: 85 gram emas murni. Haul: satu tahun hijriah. Kadar: 2,5% dari total harta."},
+      {judul:"Puasa Ramadhan",isi:"Wajib bagi muslim baligh, berakal, sehat, dan mukim. Batal karena: makan-minum sengaja, jima', muntah sengaja, haid/nifas."},
+    ],
+    dalil:{arab:"وَأَقِيمُوا الصَّلَاةَ وَآتُوا الزَّكَاةَ وَارْكَعُوا مَعَ الرَّاكِعِينَ",latin:"Wa aqiimush-shalaata wa aatuz-zakaata war-ka'uu ma'ar-raaki'iin",terjemah:"Dan laksanakanlah shalat, tunaikanlah zakat, dan rukuklah beserta orang-orang yang rukuk.",sumber:"QS. Al-Baqarah: 43",penjelasan:"Perintah shalat dan zakat disebutkan bersama dalam Al-Qur'an lebih dari 30 kali. Ini menunjukkan betapa pentingnya kedua ibadah tersebut sebagai tiang agama dan bentuk kepedulian sosial seorang muslim."},
+    kuis:[
+      {soal:"Berapa rakaat shalat Maghrib?",opsi:["2 rakaat","3 rakaat","4 rakaat","5 rakaat"],jawaban:1},
+      {soal:"Salah satu syarat wajib zakat mal adalah...?",opsi:["Muslim dan akil baligh","Harta mencapai nishab dan haul","Memiliki pekerjaan tetap","Sehat jasmani dan rohani"],jawaban:1},
+      {soal:"Wudhu batal karena hal berikut, KECUALI...?",opsi:["Buang air kecil","Menyentuh mushaf","Tidur nyenyak","Kentut"],jawaban:1},
+      {soal:"Shalat Dhuha paling sedikit dikerjakan...?",opsi:["1 rakaat","2 rakaat","4 rakaat","8 rakaat"],jawaban:1},
+    ]
+  },
+  {
+    id:4, judul:"Akhlak Mulia", icon:"🌹",
+    gradient:"linear-gradient(135deg,#b34f00,#f0842a)",
+    deskripsi:"Pembentukan karakter dan perilaku mulia sesuai tuntunan Rasulullah ﷺ",
+    topik:5, waktu:"2 Jam/Minggu", progress:30,
+    submateri:[
+      {icon:"❤️",nama:"Akhlak kepada Allah",desc:"Syukur, tawakkal, taubat, khauf, raja', dan zikir",status:"done"},
+      {icon:"🤝",nama:"Akhlak kepada Sesama",desc:"Jujur, amanah, tolong-menolong, dan menepati janji",status:"new"},
+      {icon:"👨‍👩‍👧",nama:"Akhlak kepada Orang Tua",desc:"Birrul walidain, berbakti, patuh, dan mendoakan",status:"new"},
+      {icon:"🌿",nama:"Akhlak terhadap Alam",desc:"Menjaga lingkungan, tidak merusak, dan menyayangi hewan",status:"lock"},
+      {icon:"💪",nama:"Sifat-Sifat Terpuji",desc:"Sabar, ikhlas, rendah hati, jujur, dan dermawan",status:"lock"},
+    ],
+    penjelasan:[
+      {judul:"Pengertian Akhlak",isi:"Akhlak secara bahasa berasal dari kata 'khuluq' artinya tabiat atau budi pekerti. Secara istilah, akhlak adalah sifat yang tertanam dalam jiwa yang mendorong seseorang melakukan perbuatan tanpa perlu pertimbangan dan pemikiran terlebih dahulu."},
+      {judul:"Akhlak Nabi Muhammad ﷺ",isi:"Nabi Muhammad ﷺ adalah teladan terbaik (uswatun hasanah) bagi seluruh umat manusia. Beliau bersabda: 'Sesungguhnya aku diutus hanya untuk menyempurnakan kesalehan akhlak.' Istri beliau, Aisyah RA berkata bahwa akhlak beliau adalah Al-Qur'an."},
+      {judul:"Cara Membentuk Akhlak Mulia",isi:"",list:["Meneladani Nabi Muhammad ﷺ dalam segala aspek kehidupan","Bergaul dengan orang-orang shalih dan berakhlak mulia","Mujahadah — berjuang melawan hawa nafsu yang mengajak kejelekan","Memperbanyak ibadah, dzikir, dan membaca Al-Qur'an","Bersabar ketika menghadapi ujian dan cobaan"]},
+      {judul:"Birrul Walidain",isi:"Berbakti kepada orang tua adalah kewajiban utama setelah beriman kepada Allah. Hukumnya fardhu 'ain. Bentuknya antara lain: menaati perintah orang tua (selama bukan maksiat), berbicara lemah lembut, mendoakan mereka, dan memenuhi kebutuhan mereka."},
+    ],
+    pjGrid:[
+      {judul:"Sifat Sabar",isi:"Sabar ada 3: sabar dalam ketaatan, sabar dari maksiat, dan sabar menghadapi musibah. Ketiganya wajib bagi setiap muslim."},
+      {judul:"Sifat Ikhlas",isi:"Melakukan amal hanya karena Allah SWT, bukan karena ingin dilihat manusia (riya) atau ingin didengar (sum'ah)."},
+      {judul:"Tawadhu'",isi:"Rendah hati, tidak sombong, dan tidak meremehkan orang lain. Lawannya adalah takabur yang sangat dibenci Allah."},
+      {judul:"Amanah",isi:"Dapat dipercaya dalam menjaga titipan, rahasia, maupun tanggung jawab. Lawan amanah adalah khianat."},
+    ],
+    dalil:{arab:"إِنَّمَا بُعِثْتُ لِأُتَمِّمَ مَكَارِمَ الْأَخْلَاقِ",latin:"Innamaa bu'itstu liutammima makaarimal akhlaaq",terjemah:"Sesungguhnya aku diutus hanya untuk menyempurnakan kesalehan akhlak.",sumber:"HR. Al-Baihaqi (Shahih)",penjelasan:"Hadist ini menunjukkan bahwa misi utama Nabi Muhammad ﷺ adalah membangun akhlak mulia. Artinya, Islam sangat menekankan pentingnya akhlak sebagai inti dari seluruh ajaran agama. Ibadah yang benar akan menghasilkan akhlak yang mulia."},
+    kuis:[
+      {soal:"Sifat yang paling utama diteladani dari Nabi Muhammad ﷺ adalah...?",opsi:["Kekayaan dan kekuasaan","Akhlak mulia","Kepintaran berdebat","Ketampanan fisik"],jawaban:1},
+      {soal:"Berbakti kepada orang tua disebut...?",opsi:["Ukhuwah Islamiyah","Birrul walidain","Tawadhu","Amanah"],jawaban:1},
+      {soal:"Amal yang dilakukan semata-mata karena Allah disebut...?",opsi:["Ikhlas","Riya","Takabur","Hasad"],jawaban:0},
+      {soal:"Lawan dari sifat tawadhu adalah...?",opsi:["Sabar","Syukur","Takabur/Sombong","Pemaaf"],jawaban:2},
+    ]
+  },
+  {
+    id:5, judul:"Hadist & Sunnah", icon:"📜",
+    gradient:"linear-gradient(135deg,#1a4a6a,#2980b9)",
+    deskripsi:"Perkataan, perbuatan, dan ketetapan Nabi Muhammad ﷺ sebagai pedoman hidup",
+    topik:4, waktu:"2 Jam/Minggu", progress:20,
+    submateri:[
+      {icon:"📘",nama:"Pengertian Hadist",desc:"Definisi, pembagian, dan kedudukan hadist dalam Islam",status:"done"},
+      {icon:"⭐",nama:"Hadist Shahih",desc:"Kriteria hadist shahih dan kitab-kitab hadist terpercaya",status:"new"},
+      {icon:"📊",nama:"Klasifikasi Hadist",desc:"Shahih, Hasan, Dhaif, Maudhu beserta penjelasannya",status:"new"},
+      {icon:"📚",nama:"Hadist 40 Imam Nawawi",desc:"Hadist-hadist penting pilihan Imam Nawawi",status:"lock"},
+    ],
+    penjelasan:[
+      {judul:"Definisi Hadist",isi:"Hadist adalah segala sesuatu yang disandarkan kepada Nabi Muhammad ﷺ, baik berupa perkataan (qauliyah), perbuatan (fi'liyah), ketetapan (taqririyah), maupun sifat beliau (washfiyah)."},
+      {judul:"Fungsi Hadist terhadap Al-Qur'an",isi:"",list:["Bayan Taqrir — memperkuat dan menegaskan hukum yang sudah ada dalam Al-Qur'an","Bayan Tafsir — menjelaskan dan merinci ayat Al-Qur'an yang masih global","Bayan Tasyri' — menetapkan hukum yang tidak disebutkan dalam Al-Qur'an","Bayan Nasakh — menghapus hukum dari Al-Qur'an (menurut sebagian ulama)"]},
+      {judul:"Klasifikasi Hadist Berdasarkan Kualitas",isi:"Hadist terbagi menjadi: (1) Shahih — sanad bersambung, perawi adil dan dhabith, tidak syadz dan tidak 'illat. (2) Hasan — seperti shahih namun kualitas perawi sedikit di bawah. (3) Dhaif — ada cacat pada sanad atau matan. (4) Maudhu' — hadist palsu yang dibuat-buat."},
+      {judul:"Kitab-kitab Hadist Utama",isi:"Kutubussittah (Enam Kitab Utama): Shahih Bukhari, Shahih Muslim, Sunan Abu Dawud, Sunan At-Tirmidzi, Sunan An-Nasa'i, dan Sunan Ibnu Majah. Hadist paling shahih adalah Shahih Bukhari kemudian Shahih Muslim."},
+    ],
+    pjGrid:[
+      {judul:"Sanad Hadist",isi:"Rantai periwayatan (silsilah) para perawi yang menyampaikan hadist dari sumbernya hingga sampai kepada kita."},
+      {judul:"Matan Hadist",isi:"Isi atau teks hadist itu sendiri. Matan harus sesuai dengan Al-Qur'an dan tidak bertentangan dengan akal sehat."},
+      {judul:"Perawi Hadist",isi:"Orang yang meriwayatkan hadist. Syarat perawi yang diterima: muslim, baligh, berakal, adil, dan dhabith (kuat hafalan)."},
+      {judul:"Hadist Mutawatir",isi:"Hadist yang diriwayatkan oleh banyak perawi dari banyak jalur sehingga mustahil mereka semua bersepakat untuk berdusta."},
+    ],
+    dalil:{arab:"وَمَا آتَاكُمُ الرَّسُولُ فَخُذُوهُ وَمَا نَهَاكُمْ عَنْهُ فَانتَهُوا",latin:"Wa maa aataakumur-rasuulu fakhudzuuhu wa maa nahaakum 'anhu fantahuu",terjemah:"Apa yang diberikan Rasul kepadamu maka terimalah. Dan apa yang dilarangnya bagimu maka tinggalkanlah.",sumber:"QS. Al-Hasyr: 7",penjelasan:"Ayat ini menjadi dalil utama kewajiban mengikuti sunnah Rasulullah ﷺ. Hadist adalah penjabaran dari sunnah beliau yang menjadi sumber hukum Islam kedua setelah Al-Qur'an. Mengamalkan hadist shahih adalah ibadah."},
+    kuis:[
+      {soal:"Kitab hadist yang paling shahih adalah...?",opsi:["Sunan Tirmidzi","Shahih Bukhari","Musnad Ahmad","Muwattha Malik"],jawaban:1},
+      {soal:"Hadist yang lemah sanadnya disebut hadist...?",opsi:["Shahih","Hasan","Dhaif","Mutawatir"],jawaban:2},
+      {soal:"Rantai periwayatan hadist disebut...?",opsi:["Matan","Sanad","Rawi","Musnad"],jawaban:1},
+      {soal:"Hadist Maudhu adalah hadist...?",opsi:["Shahih tapi jarang diriwayatkan","Palsu dan dibuat-buat","Derajat di bawah shahih","Diriwayatkan banyak jalur"],jawaban:1},
+    ]
+  },
+  {
+    id:6, judul:"Sejarah Islam (SKI)", icon:"🏛️",
+    gradient:"linear-gradient(135deg,#4a2500,#a0522d)",
+    deskripsi:"Sejarah perkembangan Islam dari masa Nabi hingga era modern",
+    topik:6, waktu:"2 Jam/Minggu", progress:50,
+    submateri:[
+      {icon:"🌟",nama:"Sejarah Nabi Muhammad ﷺ",desc:"Kelahiran, masa kecil, kenabian, dan perjuangan dakwah",status:"done"},
+      {icon:"⚔️",nama:"Peperangan dalam Islam",desc:"Perang Badar, Uhud, Khandaq, Hunain, dan Tabuk",status:"done"},
+      {icon:"🕌",nama:"Khulafaur Rasyidin",desc:"4 Khalifah penerus Nabi dan masa pemerintahannya",status:"new"},
+      {icon:"🏰",nama:"Dinasti Umayyah",desc:"Perkembangan dan perluasan Islam di era Umayyah",status:"new"},
+      {icon:"📚",nama:"Dinasti Abbasiyah",desc:"Masa keemasan peradaban dan ilmu pengetahuan Islam",status:"lock"},
+      {icon:"🌍",nama:"Islam di Nusantara",desc:"Masuk dan berkembangnya Islam di Indonesia",status:"lock"},
+    ],
+    penjelasan:[
+      {judul:"Masa Kelahiran Nabi Muhammad ﷺ",isi:"Nabi Muhammad ﷺ lahir pada 12 Rabi'ul Awwal, tahun Gajah (570 M) di Makkah Al-Mukarramah. Beliau lahir dalam keadaan yatim — ayahnya, Abdullah bin Abdul Muthalib, wafat sebelum beliau lahir. Ibunya, Aminah binti Wahab, meninggal saat beliau berusia 6 tahun."},
+      {judul:"Periode Dakwah Makkah (13 Tahun)",isi:"",list:["Dakwah secara rahasia selama 3 tahun — merangkul keluarga dekat","Dakwah terang-terangan — menghadapi penolakan dan penyiksaan Quraisy","Pemboikotan ekonomi selama 3 tahun oleh kaum Quraisy","Tahun Kesedihan — wafatnya Khadijah dan Abu Thalib","Isra' Mi'raj — perintah shalat 5 waktu diturunkan"]},
+      {judul:"Hijrah ke Madinah (622 M)",isi:"Hijrah adalah titik balik sejarah Islam dan menjadi awal penanggalan kalender Hijriyah. Di Madinah, Nabi mendirikan masjid pertama (Masjid Quba), mempersaudarakan Muhajirin dan Anshar, serta membuat Piagam Madinah sebagai konstitusi pertama."},
+      {judul:"Khulafaur Rasyidin",isi:"Abu Bakar Ash-Shiddiq (632-634 M): memerangi kemurtadan dan memulai pembukuan Al-Qur'an. Umar bin Khattab (634-644 M): perluasan wilayah besar-besaran. Utsman bin Affan (644-656 M): standardisasi mushaf Al-Qur'an. Ali bin Abi Thalib (656-661 M): masa fitnah dan perang saudara."},
+    ],
+    pjGrid:[
+      {judul:"Perang Badar (624 M)",isi:"Perang pertama kaum muslimin melawan Quraisy. 313 pasukan muslim mengalahkan 1.000 pasukan Quraisy. Kemenangan besar pertama Islam."},
+      {judul:"Perang Uhud (625 M)",isi:"Kaum muslimin mengalami kekalahan karena sebagian pasukan pemanah meninggalkan posnya. Pelajaran besar tentang disiplin dan ketaatan."},
+      {judul:"Fathu Makkah (630 M)",isi:"Pembebasan Kota Makkah tanpa pertumpahan darah. Nabi memberikan amnesti umum kepada penduduk Makkah, menunjukkan akhlak mulia beliau."},
+      {judul:"Wali Songo",isi:"9 ulama penyebar Islam di Nusantara (abad 15-16 M) yang menggunakan metode dakwah kultural, persuasif, dan damai."},
+    ],
+    dalil:{arab:"لَقَدْ كَانَ لَكُمْ فِي رَسُولِ اللَّهِ أُسْوَةٌ حَسَنَةٌ",latin:"Laqad kaana lakum fii rasuulillaahi uswatun hasanah",terjemah:"Sungguh, pada (diri) Rasulullah benar-benar ada suri teladan yang baik bagimu.",sumber:"QS. Al-Ahzab: 21",penjelasan:"Mempelajari sejarah Nabi dan sahabat bukan sekadar pengetahuan historis, melainkan untuk mengambil teladan dan pelajaran hidup. Setiap peristiwa sejarah Islam mengandung hikmah mendalam yang relevan hingga masa kini."},
+    kuis:[
+      {soal:"Nabi Muhammad ﷺ lahir pada tahun...?",opsi:["570 M","610 M","622 M","632 M"],jawaban:0},
+      {soal:"Khalifah pertama setelah wafatnya Nabi Muhammad ﷺ adalah...?",opsi:["Umar bin Khattab","Ali bin Abi Thalib","Abu Bakar Ash-Shiddiq","Utsman bin Affan"],jawaban:2},
+      {soal:"Peristiwa Isra' Mi'raj menghasilkan perintah...?",opsi:["Puasa Ramadhan","Menunaikan zakat","Shalat 5 waktu","Ibadah haji"],jawaban:2},
+      {soal:"Pembebasan Kota Makkah terjadi pada tahun...?",opsi:["622 M","625 M","628 M","630 M"],jawaban:3},
+    ]
+  }
+];
+
+const doaData = [
+  {judul:"Sebelum Makan",arab:"بِسْمِ اللّٰهِ الرَّحْمٰنِ الرَّحِيْمِ",latin:"Bismillaahir rahmaanir rahiim",arti:"Dengan menyebut nama Allah Yang Maha Pengasih lagi Maha Penyayang"},
+  {judul:"Sesudah Makan",arab:"اَلْحَمْدُ لِلّٰهِ الَّذِيْ أَطْعَمَنَا وَسَقَانَا وَجَعَلَنَا مِنَ الْمُسْلِمِيْنَ",latin:"Alhamdulillaahil ladzii ath'amanaa wa saqaanaa wa ja'alanaa minal muslimiin",arti:"Segala puji bagi Allah yang telah memberi kami makan dan minum serta menjadikan kami termasuk golongan orang-orang Islam"},
+  {judul:"Masuk Rumah",arab:"اَللّٰهُمَّ إِنِّيْ أَسْأَلُكَ خَيْرَ الْمَوْلَجِ وَخَيْرَ الْمَخْرَجِ",latin:"Allaahumma innii as-aluka khoiral maulaji wa khoiral makhraji",arti:"Ya Allah, sesungguhnya aku memohon kepada-Mu kebaikan tempat masuk dan kebaikan tempat keluar"},
+  {judul:"Keluar Rumah",arab:"بِسْمِ اللّٰهِ تَوَكَّلْتُ عَلَى اللّٰهِ وَلَا حَوْلَ وَلَا قُوَّةَ إِلَّا بِاللّٰهِ",latin:"Bismillaahi tawakkaltu 'alallahi wa laa hawla wa laa quwwata illaa billaah",arti:"Dengan nama Allah, aku bertawakkal kepada Allah, dan tidak ada daya dan kekuatan kecuali dengan pertolongan Allah"},
+  {judul:"Sebelum Tidur",arab:"بِاسْمِكَ اللّٰهُمَّ أَحْيَا وَأَمُوتُ",latin:"Bismikallahumma ahyaa wa amuut",arti:"Dengan nama-Mu ya Allah, aku hidup dan aku mati"},
+  {judul:"Bangun Tidur",arab:"اَلْحَمْدُ لِلّٰهِ الَّذِيْ أَحْيَانَا بَعْدَ مَا أَمَاتَنَا وَإِلَيْهِ النُّشُوْرُ",latin:"Alhamdulillahil ladzii ahyaanaa ba'da maa amaatanaa wa ilaihin nusyuur",arti:"Segala puji bagi Allah yang telah menghidupkan kami setelah mematikan kami, dan kepada-Nya lah kami dikembalikan"},
+  {judul:"Masuk Kamar Mandi",arab:"اَللّٰهُمَّ إِنِّيْ أَعُوْذُ بِكَ مِنَ الْخُبُثِ وَالْخَبَائِثِ",latin:"Allaahumma innii a'uudzubika minal khubutsi wal khabaaits",arti:"Ya Allah, sesungguhnya aku berlindung kepada-Mu dari setan laki-laki dan setan perempuan"},
+  {judul:"Keluar Kamar Mandi",arab:"غُفْرَانَكَ",latin:"Ghufroonak",arti:"Aku memohon ampunan-Mu ya Allah"},
+  {judul:"Bercermin",arab:"اَللّٰهُمَّ حَسَّنْتَ خَلْقِيْ فَحَسِّنْ خُلُقِيْ",latin:"Allaahumma hassanta khalqii fa hassin khuluqii",arti:"Ya Allah, Engkau telah memperindah kejadianku, maka perindahlah pula akhlakku"},
+  {judul:"Sebelum Belajar",arab:"رَبِّ زِدْنِيْ عِلْمًا وَارْزُقْنِيْ فَهْمًا",latin:"Rabbi zidnii 'ilmaa warzuqnii fahmaa",arti:"Ya Tuhanku, tambahkanlah ilmuku dan berikanlah aku pemahaman"},
+  {judul:"Sesudah Belajar",arab:"اَللّٰهُمَّ إِنِّيْ أَسْتَوْدِعُكَ مَا عَلَّمْتَنِيْ",latin:"Allaahumma innii astaudi'uka maa 'allamtanii",arti:"Ya Allah, aku titipkan kepada-Mu apa yang telah Engkau ajarkan kepadaku"},
+  {judul:"Naik Kendaraan",arab:"سُبْحَانَ الَّذِيْ سَخَّرَ لَنَا هٰذَا وَمَا كُنَّا لَهُ مُقْرِنِيْنَ",latin:"Subhaanal ladzii sakhkhara lanaa haadzaa wa maa kunnaa lahuu muqriniin",arti:"Maha Suci Allah yang telah menundukkan semua ini bagi kami, padahal kami sebelumnya tidak mampu menguasainya"},
+];
+
+// ============================================================
+//  RENDER
+// ============================================================
+let currentQuizAnswers = {};
+let currentQuizData = [];
+
+function renderBerandaGrid(){
+  const g = document.getElementById('berandaGrid');
+  materiData.forEach(m => {
+    const c = document.createElement('div');
+    c.className = 'bmateri-card';
+    c.innerHTML = `
+      <div class="bmateri-top" style="background:${m.gradient}">
+        <div class="bmateri-ico" style="background:rgba(255,255,255,0.2)">${m.icon}</div>
+        <div><h3>${m.judul}</h3><p>${m.deskripsi}</p></div>
+      </div>
+      <div class="bmateri-bot">
+        <div class="prog-row"><span>Progress</span><span>${m.progress}%</span></div>
+        <div class="prog-bar"><div class="prog-fill" style="width:${m.progress}%"></div></div>
+        <button class="bmateri-btn" onclick="goMateri(${m.id},'submateri')">Buka Materi →</button>
+      </div>`;
+    g.appendChild(c);
+  });
+}
+
+function renderDoaGrid(){
+  const g = document.getElementById('doaGrid');
+  doaData.forEach(d => {
+    const el = document.createElement('div');
+    el.className = 'doa-card';
+    el.innerHTML = `
+      <div class="doa-judul">🤲 Do'a ${d.judul}</div>
+      <div class="doa-arab">${d.arab}</div>
+      <div class="doa-latin">${d.latin}</div>
+      <div class="doa-arti">${d.arti}</div>`;
+    g.appendChild(el);
+  });
+}
+
+function renderMateriPages(){
+  const wrap = document.getElementById('materiPages');
+  materiData.forEach(m => {
+    const pg = document.createElement('div');
+    pg.className = 'page';
+    pg.id = `page-materi-${m.id}`;
+
+    const statusLabel = {done:'✅ Selesai',new:'🆕 Baru',lock:'🔒 Terkunci'};
+    const statusClass = {done:'s-done',new:'s-new',lock:'s-lock'};
+
+    // sub materi HTML
+    const smHTML = `<div class="sml">${m.submateri.map((s,i) => `
+      <div class="sml-item">
+        <div class="sml-num">${i+1}</div>
+        <div class="sml-ico">${s.icon}</div>
+        <div class="sml-info"><h4>${s.nama}</h4><p>${s.desc}</p></div>
+        <span class="sml-status ${statusClass[s.status]}">${statusLabel[s.status]}</span>
+      </div>`).join('')}</div>`;
+
+    // penjelasan HTML
+    const pjHTML = `<div class="penjelasan-box">
+      ${m.penjelasan.map(p => `
+        <div class="pj-section">
+          <h3>${p.judul}</h3>
+          ${p.isi ? `<p>${p.isi}</p>` : ''}
+          ${p.list ? `<ul class="pj-list">${p.list.map(l=>`<li>${l}</li>`).join('')}</ul>` : ''}
+        </div>`).join('')}
+      ${m.pjGrid ? `<div class="pj-grid">${m.pjGrid.map(pg=>`<div class="pj-card"><h4>${pg.judul}</h4><p>${pg.isi}</p></div>`).join('')}</div>` : ''}
+    </div>`;
+
+    // dalil HTML
+    const dalilHTML = `
+      <div class="dalil-card">
+        <div class="dc-arab">${m.dalil.arab}</div>
+        <div class="dc-latin">${m.dalil.latin}</div>
+        <div class="dc-terjemah">"${m.dalil.terjemah}"</div>
+        <div class="dc-src">— ${m.dalil.sumber}</div>
+      </div>
+      <div class="dalil-penjelasan">
+        <h4>📖 Penjelasan Dalil</h4>
+        <p>${m.dalil.penjelasan}</p>
+      </div>`;
+
+    // kuis HTML
+    const kuisHTML = `
+      <div class="quiz-header">
+        <h3>🧪 Kuis — ${m.judul}</h3>
+        <button class="quiz-reset" onclick="resetKuis(${m.id})">🔄 Reset Kuis</button>
+      </div>
+      <div id="kuis-${m.id}">
+        ${m.kuis.map((q,qi) => `
+          <div class="qcard" id="qcard-${m.id}-${qi}">
+            <p>${qi+1}. ${q.soal}</p>
+            <div class="q-opts">
+              ${q.opsi.map((o,oi) => `
+                <button class="q-opt" id="qo-${m.id}-${qi}-${oi}" onclick="jawabKuis(${m.id},${qi},${oi})">
+                  ${String.fromCharCode(65+oi)}. ${o}
+                </button>`).join('')}
+            </div>
+          </div>`).join('')}
+      </div>`;
+
+    pg.innerHTML = `
+      <div class="materi-page-header" style="background:${m.gradient}">
+        <div class="mph-content">
+          <div class="mph-icon">${m.icon}</div>
+          <div class="mph-info">
+            <h1>${m.judul}</h1>
+            <p>${m.deskripsi}</p>
+            <div class="mph-meta">
+              <span class="mph-pill">📚 ${m.topik} Sub Topik</span>
+              <span class="mph-pill">⏱️ ${m.waktu}</span>
+              <span class="mph-pill">📊 Progress: ${m.progress}%</span>
+            </div>
+          </div>
+        </div>
+      </div>
+      <div class="inner-tabs" id="itabs-${m.id}">
+        <button class="inner-tab active" onclick="switchInner(${m.id},'submateri',this)">📚 Sub Materi</button>
+        <button class="inner-tab" onclick="switchInner(${m.id},'penjelasan',this)">📖 Penjelasan</button>
+        <button class="inner-tab" onclick="switchInner(${m.id},'dalil',this)">🕌 Dalil</button>
+        <button class="inner-tab" onclick="switchInner(${m.id},'kuis',this)">🧪 Kuis</button>
+      </div>
+      <div class="inner-content">
+        <div class="itab-pane active" id="ipane-${m.id}-submateri">${smHTML}</div>
+        <div class="itab-pane" id="ipane-${m.id}-penjelasan">${pjHTML}</div>
+        <div class="itab-pane" id="ipane-${m.id}-dalil">${dalilHTML}</div>
+        <div class="itab-pane" id="ipane-${m.id}-kuis">${kuisHTML}</div>
+      </div>`;
+
+    wrap.appendChild(pg);
+  });
+}
+
+// ============================================================
+//  NAVIGATION
+// ============================================================
+let activePage = 'beranda';
+let activeMateriId = null;
+let activeSubTab = 'submateri';
+
+function goPage(pageId, btn){
+  // hide all
+  document.querySelectorAll('.page').forEach(p => p.classList.remove('active'));
+  document.getElementById('page-'+pageId).classList.add('active');
+  activePage = pageId;
+  activeMateriId = null;
+
+  // breadcrumb
+  const names = {beranda:'Beranda',doa:"Do'a Harian",jadwal:'Jadwal Belajar',fitur:'Fitur Unggulan'};
+  updateBread(names[pageId] || pageId);
+
+  // sidebar active
+  clearMenuActive();
+  if(btn) { btn.classList.add('active'); }
+  else {
+    document.querySelectorAll('.menu-item').forEach(b => {
+      if(b.dataset.page === pageId) b.classList.add('active');
+    });
+  }
+  document.getElementById('main').scrollTo(0,0);
+  closeSidebar();
+}
+
+function goMateri(id, tab='submateri'){
+  const m = materiData.find(x=>x.id===id);
+  document.querySelectorAll('.page').forEach(p => p.classList.remove('active'));
+  document.getElementById(`page-materi-${id}`).classList.add('active');
+  activePage = 'materi-'+id;
+  activeMateriId = id;
+
+  // inner tab
+  switchInner(id, tab, document.querySelector(`#itabs-${id} .inner-tab`));
+  if(tab !== 'submateri'){
+    document.querySelectorAll(`#itabs-${id} .inner-tab`).forEach(t => {
+      if(t.textContent.toLowerCase().includes(tab.replace('kuis','kuis').replace('dalil','dalil').replace('penjelasan','penjelasan').replace('submateri','sub'))) {
+        t.click();
+      }
+    });
+  }
+
+  // breadcrumb
+  updateBread(m.judul);
+
+  // sidebar
+  clearMenuActive();
+  const par = document.getElementById(`par-${id}`);
+  if(par){
+    const btn = par.querySelector('.menu-parent-btn');
+    btn.classList.add('open');
+    par.querySelector('.sub-menu').classList.add('open');
+    // mark sub
+    const subBtns = par.querySelectorAll('.sub-menu-item');
+    subBtns.forEach(sb => {
+      sb.classList.remove('active');
+      if(sb.textContent.trim().toLowerCase().includes(tab.substring(0,3))) sb.classList.add('active');
+    });
+  }
+  document.getElementById('main').scrollTo(0,0);
+  closeSidebar();
+}
+
+function switchInner(id, tab, clickedBtn){
+  document.querySelectorAll(`#ipane-${id}-submateri, #ipane-${id}-penjelasan, #ipane-${id}-dalil, #ipane-${id}-kuis`).forEach(p => p.classList.remove('active'));
+  document.getElementById(`ipane-${id}-${tab}`).classList.add('active');
+  const tabs = document.querySelectorAll(`#itabs-${id} .inner-tab`);
+  tabs.forEach(t => t.classList.remove('active'));
+  if(clickedBtn) clickedBtn.classList.add('active');
+  else {
+    tabs.forEach(t => { if(t.textContent.toLowerCase().includes(tab.substring(0,3))) t.classList.add('active'); });
+  }
+}
+
+function updateBread(cur){
+  const sep = document.getElementById('breadSep');
+  const c = document.getElementById('breadCur');
+  if(cur === 'Beranda'){ sep.style.display='none'; c.textContent=''; }
+  else { sep.style.display='inline'; c.textContent=cur; }
+}
+
+function clearMenuActive(){
+  document.querySelectorAll('.menu-item').forEach(b => b.classList.remove('active'));
+  document.querySelectorAll('.menu-parent-btn').forEach(b => b.classList.remove('open'));
+  document.querySelectorAll('.sub-menu').forEach(s => s.classList.remove('open'));
+  document.querySelectorAll('.sub-menu-item').forEach(s => s.classList.remove('active'));
+}
+
+function toggleParent(id){
+  const par = document.getElementById(id);
+  const btn = par.querySelector('.menu-parent-btn');
+  const sub = par.querySelector('.sub-menu');
+  const isOpen = btn.classList.contains('open');
+  // close all
+  document.querySelectorAll('.menu-parent-btn').forEach(b => b.classList.remove('open'));
+  document.querySelectorAll('.sub-menu').forEach(s => s.classList.remove('open'));
+  if(!isOpen){ btn.classList.add('open'); sub.classList.add('open'); }
+}
+
+// ============================================================
+//  QUIZ
+// ============================================================
+let quizState = {};
+
+function jawabKuis(mid, qi, oi){
+  if(!quizState[mid]) quizState[mid] = {};
+  if(quizState[mid][qi] !== undefined) return;
+  quizState[mid][qi] = oi;
+  const m = materiData.find(x=>x.id===mid);
+  const correct = m.kuis[qi].jawaban;
+  document.getElementById(`qo-${mid}-${qi}-${oi}`).classList.add(oi===correct?'correct':'wrong');
+  if(oi!==correct) document.getElementById(`qo-${mid}-${qi}-${correct}`).classList.add('correct');
+}
+
+function resetKuis(mid){
+  quizState[mid] = {};
+  const m = materiData.find(x=>x.id===mid);
+  m.kuis.forEach((q,qi) => {
+    q.opsi.forEach((o,oi) => {
+      const btn = document.getElementById(`qo-${mid}-${qi}-${oi}`);
+      if(btn){ btn.classList.remove('correct','wrong'); }
+    });
+  });
+}
+
+// ============================================================
+//  SIDEBAR MOBILE
+// ============================================================
+function toggleSidebar(){
+  document.getElementById('sidebar').classList.toggle('open');
+  document.getElementById('sidebarOverlay').classList.toggle('open');
+}
+function closeSidebar(){
+  document.getElementById('sidebar').classList.remove('open');
+  document.getElementById('sidebarOverlay').classList.remove('open');
+}
+
+// ============================================================
+//  INIT
+// ============================================================
+renderBerandaGrid();
+renderDoaGrid();
+renderMateriPages();
+</script>
+</body>
+</html>
